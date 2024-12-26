@@ -1,34 +1,34 @@
+import { Alert, Button, DatePicker, Space } from 'antd';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
-import { Alert, DatePicker, Space, Button } from 'antd';
-import type { Dayjs } from 'dayjs';
 
 export function Hello() {
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
-
-  const handleDateChange = (date: Dayjs | null) => {
-    setSelectedDate(date);
-    console.log('选择的日期时间:', date?.format('YYYY-MM-DD HH:mm:ss'));
-  };
-
-  const handleClear = () => {
-    setSelectedDate(null);
-  };
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   return (
     <Space direction="vertical">
       <Space>
-        <DatePicker 
-          showTime 
+        <DatePicker
+          showTime
           placeholder="请选择日期和时间"
-          onChange={handleDateChange}
-          value={selectedDate}
+          onChange={(dayjs) => setSelectedDate(dayjs?.toDate() ?? null)}
+          value={selectedDate ? dayjs(selectedDate) : null}
         />
-        <Button onClick={handleClear}>清除</Button>
+        <Button onClick={() => setSelectedDate(null)}>清除</Button>
       </Space>
+
       {selectedDate && (
-        <Alert 
-          message={`您选择的时间是: ${selectedDate.format('YYYY-MM-DD HH:mm:ss')}`} 
-          type="success" 
+        <Alert
+          message={<div>您选择的时间是: {
+            <pre>
+              {JSON.stringify({
+                'selectedDate.toString()': selectedDate.toString(),
+                'selectedDate.toLocaleString()': selectedDate.toLocaleString(),
+                'selectedDate.toISOString()': selectedDate.toISOString(),
+              }, null, 2)}
+            </pre>
+          }</div>}
+          type="success"
         />
       )}
     </Space>
