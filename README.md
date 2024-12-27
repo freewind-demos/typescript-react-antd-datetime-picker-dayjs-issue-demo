@@ -1,26 +1,19 @@
-# 日期时间选择器演示
+# AntD DatePicker dayjs问题演示
 
-这是一个使用 React 和 Ant Design 构建的日期时间选择器演示项目。
+之前在别处使用DatePicker选择时间时遇到了一些问题：
+- 我们在DatePicker里选择了一个时间，它将以dayjs实例形式返回给我们
+- 我们自己导入了dayjs，并用`dayjs(selectedTime)`进行包裹后返回给DatePicker
+- DatePicker报错如：`clone2.weekday is not a function`
 
-## 功能特点
+曾经以为是DatePicker内部导入并维护了一个多插件的dayjs实例，与我们在代码手动导入的dayjs不同，由于我们导入的dayjs可能缺少某些未知插件，包装并传回去后，DatePicker在使用时调用某些插件方法时报错。
 
-- 日期和时间选择
-- 实时显示所选时间
-- 一键清除功能
-- 友好的用户界面提示
+最后发现可能是我们引入的dayjs版本与antd DatePicker内部的dayjs不同，所以导致此问题。把它们两个升级到最新版本后，问题解决。
 
-## 技术栈
+我们从pnpm-lock.yaml里可以看到antd依赖的dayjs版本。我们需要安装与之一致的版本。
 
-- React
-- TypeScript
-- Ant Design (antd)
-- dayjs
-
-## 安装依赖
+## 使用方法
 
 ```
 npm install
 npm start
 ```
-
-It will open page on browser automatically.
